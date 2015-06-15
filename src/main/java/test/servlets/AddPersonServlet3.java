@@ -36,6 +36,10 @@ public class AddPersonServlet3 extends HttpServlet implements Serializable{
         String name = request.getParameter("name");
         String surName = request.getParameter("surName");
         String action = request.getParameter("action");
+        String gsmNo = request.getParameter("gsmNo");
+        
+        
+        
 //        if ((name == null || name.equals("")) || (surName == null || surName.equals(""))) {
 //            request.setAttribute("error", "Mandatory Parameters Missing");
 //            RequestDispatcher rd = getServletContext().getRequestDispatcher("/persons.jsp");
@@ -63,29 +67,50 @@ public class AddPersonServlet3 extends HttpServlet implements Serializable{
 //                request.setAttribute("users", personRepositoryImpl.getAll());    
             } 
             else if (action.equalsIgnoreCase("prepareAdd")){
-            	  String editUserId = request.getParameter("userId");
-                  String fname = request.getParameter("name");
-                  String lname =request.getParameter("surName");
-
-                  person.setName(fname);
-                  person.setSurName(lname);
+//            	  String editUserId = request.getParameter("userId");
+//                  String fname = request.getParameter("name");
+//                  String lname =request.getParameter("surName");
+//                  String cellPhone = request.getParameter("gsmNo");
+//                  
+//                  person.setName(fname);
+//                  person.setSurName(lname);
+//                  person.setGsmNO(cellPhone);
                    
-                forward = INSERT_OR_EDIT;
+//                forward = INSERT_OR_EDIT;
 //                request.setAttribute("user", person);    
                 
                 response.getWriter().print("Successfull");
             }
             else if (action.equalsIgnoreCase("create")){
-                forward = LIST_USER;
+            	
+            	String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+                
+                System.out.println(gRecaptchaResponse);
+                boolean verify = VerifyRecaptcha.verify(gRecaptchaResponse);
+            	
                 String fname = request.getParameter("name");
                 String lname =request.getParameter("surName");
-                person.setName(fname);
-                person.setSurName(lname);
-                personRepositoryImpl.add(person);
+                String cellPhone = request.getParameter("gsmNo");
                 
-                personRepositoryImpl.get(person.getId());
-                response.getWriter().print("Successfull"); 
-//                request.setAttribute("user", person);
+                if(verify){
+                	 person.setName(fname);
+                     person.setSurName(lname);
+                     person.setGsmNO(cellPhone);
+                     
+                     personRepositoryImpl.add(person);
+                     personRepositoryImpl.get(person.getId());
+                     
+                     response.getWriter().print("Successfull"); 
+                }else{
+                	response.getWriter().print("failed"); 
+                }
+               
+                
+               
+                
+               
+                
+                
                 
             }  else if (action.equalsIgnoreCase("edit")){
             	
@@ -93,18 +118,18 @@ public class AddPersonServlet3 extends HttpServlet implements Serializable{
                 String editUserId = request.getParameter("userId");
                 String fname = request.getParameter("name");
                 String lname =request.getParameter("surName");
+                String cellPhone = request.getParameter("gsmNo");
                 
-                
-             person =   personRepositoryImpl.get(Long.parseLong(String.valueOf(editUserId)));
+                person =   personRepositoryImpl.get(Long.parseLong(String.valueOf(editUserId)));
                 
                 person.setName(fname);
                 person.setSurName(lname);
+                person.setGsmNO(cellPhone);
                 
                 personRepositoryImpl.update(person);
                 
                 
                 person= personRepositoryImpl.get(Long.parseLong (String.valueOf(editUserId)) );
-//                request.setAttribute("user", person);
                 response.getWriter().print("Successfull");
                 
 //                PrintWriter out = response.getWriter();

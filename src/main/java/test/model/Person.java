@@ -15,6 +15,7 @@ public class Person {
 	
 	private  String name;
 	private  String surName;
+	private  String gsmNO;
 	
 	public Person() {
 		// TODO Auto-generated constructor stub
@@ -49,6 +50,12 @@ public class Person {
 
 	public void setSurName(String surName) {
 		this.surName = surName;
+	}
+	public String getGsmNO() {
+		return gsmNO;
+	}
+	public void setGsmNO(String gsmNO) {
+		this.gsmNO = gsmNO;
 	}
  
  
