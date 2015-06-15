@@ -30,6 +30,10 @@
 			var Form = document.getElementById('MyDialog');
 	       	var append="action="+newStatu;
 	       	
+	        var count =0;
+	       	var checkVar="";
+	       	var myArr=[];
+	        
 	       	if(newStatu=="delete"){
 	       		append =append+"&userId="+id;
 	       	}else{
@@ -37,9 +41,51 @@
 	                var Name = Form[I].getAttribute('name');
 	                var value = Form[I].value;
 	                append =append+"&"+Name+"="+value;
+	                
+	                
+	                
+	                if(Name =="name" &&value==""){
+	                	checkVar =" "+checkVar +" firstname";
+	                	myArr.push("showName");
+	                	}
+	                if(Name =="surName" &&value==""){
+	                	checkVar =" "+checkVar +" lastname ";
+	                	myArr.push("showSurName");
+	                	}
+	                if(Name =="g-recaptcha-response" &&value==""){
+	                	checkVar =" "+checkVar +" captcha";
+	                	myArr.push("showKapca");
+	                	}
+	                
+	                if(Name !="gsmNo" && Name !="userId" && value !="" && value !=null)
+	                	count++;
+	                //I will take only firstname,lastname and catpcha it count 3 if all exist
 	        	}
 	       	}
 	       	
+	       	var inputt;
+	       	
+	       	var defArr =[];
+	       	defArr.push("showKapca","showSurName","showName");
+	       	
+	       	if(newStatu=="create" && count !=3){
+	       		
+	       		for (var i = 0; i < defArr.length; i++) {
+	       		document.getElementById(defArr[i]).style.display = "none";
+	       		}
+	       		
+	       		for (var i = 0; i < myArr.length; i++) {
+	       			document.getElementById(myArr[i]).style.display = "block";
+	       		}
+	       		
+// 	       	 document.getElementById('showName').style.display = "block";
+// 	       	 document.getElementById('showSurName').style.display = "block";
+// 	       	 document.getElementById('showKapca').style.display = "block";
+
+	       	
+// 	       		alert(" please fill "+checkVar+ " the input");
+	       		$( "#yesno").dialog( "close" );
+	       	}else{
 			
 			 $.ajax({
 			        type: "POST",
@@ -56,6 +102,7 @@
 			            }
 			        }
 			    });
+	       	}
 		}
 		
 			
@@ -118,9 +165,6 @@
 				});
 				
 				 if(IDval!=null && IDval !="" ){
-					 $( "#MyDialog" ).dialog( "open" );
-				 }else{
-					 
 					 var Form = document.getElementById('MyDialog');
 				      
 			       		for(I = 0; I < Form.length; I++) {
@@ -132,6 +176,11 @@
 			                 }
 			        	}
 			       		$( "#MyDialog" ).dialog( "open" );
+				 
+				 
+				 }else{
+					 
+					 $( "#MyDialog" ).dialog( "open" );
 				 }
 				
 			}
@@ -308,10 +357,18 @@
 	<p><input id="create-user" type="button" value="Add User" onclick="create()" ></input></p>
 	             	
     	<form method="POST" action='/addPerson' name="frmAddUser" id="MyDialog" hidden="true">
-    	ID  : <input id="userId"    name="userId"        type="text"     /> <br/>
+    	  <input id="userId"    name="userId"        type="text"  hidden="true"   /> <br/>
+    
+    <div id="showName"  style="display:none;color:#F80000 ;"  >*please enter</div>
+    	  
         First Name : <input id="userName"    name="name"        type="text"     /> <br/> 
+   
+    <div id="showSurName"  style="display:none; color:#F80000 ;"  >*please enter</div>     
         Last Name : <input id="userSurName"  name="surName"       type="text"    /> <br/>  
+        
         GSM: <input id="maskon" name="gsmNo" type="text" maxlength="14" placeholder="(XXX) XXX-XXXX" /><br /> 
+     
+      <div id="showKapca"  style="display:none; color:#F80000 ;"   >*please enter</div>   
           <div id="kapca" class="g-recaptcha" data-sitekey="6LfNDAgTAAAAAHNWpjniSdeenSgNW309s8BfFIRD"></div>
   
   </form>
@@ -320,6 +377,9 @@
   <a href="#" id="yesno"  hidden="true">Are You SURE ??</a>
   
   <script src='https://www.google.com/recaptcha/api.js'></script>
+     
+     
+     
      
 </body>
 </html>
