@@ -1,0 +1,17 @@
+Eger xml konfigurasyonu ile beanlar yönetilecekse
+AppConfig de ilgili spring.xml i import edilmeli gerçi bir class da bu
+eklendiði için web.xml den gidilmediði için farklý biryöntem olmuþ olyor
+hem class hem xml kullanýlýyor
+
+MongoConfiguration.java classýnda mongodb ayarlarý yapýlýyor eðer xml ile devam edilecekse bu class silinmeli
+
+
+
+Annotation ile yapýlacaksa
+
+AppConfig -MongoConfiguration dosyalarýný deðiþtirmemiz yeter
+aslýnda AppConfig de ya Mongo configurationlarýný verir springe hallettiririz
+yada MongoConfiguration classýnda DI biz yapmaya çalýþýrýz yaptýmda ama
+objeyi kaydederken timeouta düþüyor
+com.mongodb.MongoTimeoutException: Timed out while waiting to connect after 10000 ms
+
