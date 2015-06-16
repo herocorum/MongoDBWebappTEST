@@ -2,6 +2,7 @@ package test.servlets;
 
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -9,8 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import test.model.Person;
@@ -23,34 +27,32 @@ import test.service.PersonSerfice;
  */
 
 @RestController
-@RequestMapping(value="/country")
 public class CountryController {
     
     @Autowired private PersonSerfice personSerfice;
     
-    protected void doPost(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter("name");
-        String surName = request.getParameter("surName");
-        
-        if ((name == null || name.equals("")) || (surName == null || surName.equals(""))) {
-            request.setAttribute("error", "Mandatory Parameters Missing");
-        } else {
-            Person p = new Person();
-            p.setSurName(surName);
-            p.setName(name);
-            
-         
-        }
+  
+    
+ 
+    @RequestMapping(value = "/usersList", method = RequestMethod.GET)
+    public String getListReader(ModelMap model) {
+        model.addAttribute("users", personSerfice.getAll());
+        return "listUser";
     }
     
-	@RequestMapping("/person")
-	public Person getPersonDetail(@Valid @RequestBody Person person) {//@RequestParam(value = "id", required = false, defaultValue = "0") Integer id
-		
-		
-//		Person p = personRepositoryImpl.getPersonDetail(id);
-		return null;
-	}
     
+    @RequestMapping(method = RequestMethod.GET, value = "/saveEntity")
+    public @ResponseBody
+    void saveEntity( HttpServletRequest request) {
+
+        String name = request.getParameter("name");
+        String surName = request.getParameter("surName");
+        String action = request.getParameter("action");
+        String gsmNo = request.getParameter("gsmNo");
+
+       
+
+    }
     
 //    @RequestMapping(value="/{name}", method=RequestMethod.GET)
 //    public Person getCountry(@PathVariable("name") String countryId) {     
