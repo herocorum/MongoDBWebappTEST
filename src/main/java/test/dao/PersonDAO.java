@@ -14,17 +14,20 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import test.model.Person;
+import test.model.SequenceId;
 
 @Repository
 public class PersonDAO {
 //    @Autowired    private MongoOperations mongoOperations;
+	
 	 @Autowired 
     private MongoTemplate mongoTemplate;
 
-    public void create (Person person) {
-//    	person.setId (getNextSequenceId (Person.COLLECTION_NAME));
+    public Person  create (Person person) {
     	person.setId(getUniqueId());
     	mongoTemplate.save (person);
+    	
+    	return get(person.getId());
     }
 
     public void update(Person person) {
@@ -32,7 +35,6 @@ public class PersonDAO {
 	}
     
     public Person get (Long id) {
-//    	return mongoTemplate.findOne(Query.query (Criteria.where ("_id").is (id)), Person.class);
         return mongoTemplate.findOne (Query.query (Criteria.where ("_id").is (id)), Person.class);
     }
     @Transactional
@@ -44,9 +46,20 @@ public class PersonDAO {
     	mongoTemplate.remove (Query.query (Criteria.where ("_id").is (id)), Person.class);
     }
 
+    /**
+     * 
+     * @param key
+     * @return
+     * @throws SequenceException
+     * I am getting all data form db and
+     * I am try to find biggest id which is in MongoDB
+     * and I will increase by 1 that id
+     * after I will assign as an id to my new object
+     * 
+     */
     public long getNextSequenceId(String key) throws SequenceException {
-       //burada sortlayýp order  a koy sonra enson gelenin id sini al
-		Query query = new Query(Criteria.where("_id").is("1"));
+
+    	Query query = new Query(Criteria.where("_id").is("1"));
 
 		Update update = new Update();
 		update.inc("seq", 1);
@@ -104,10 +117,4 @@ public class PersonDAO {
 		return maxValue;
     }
 
-    
-    /*
-    mongoOperations.updateFirst (query, update, Contact.class);
-     mongoOperations.save (contact);
-     */
-    
 }

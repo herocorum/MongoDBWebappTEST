@@ -15,9 +15,13 @@ import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 @Configuration// Marks this class as configuration// Specifies which package to scan
-@ComponentScan("test")// Enables Spring's annotations
+@ComponentScan({ "test", "test.controller" })
+
+//("test")
+
+// Enables Spring's annotations
 //@EnableTransactionManagement
-//@EnableWebMvc
+@EnableWebMvc
 //@ImportResource("classpath:\\spring.xml")
 public class AppConfig extends WebMvcConfigurerAdapter{// 
 
@@ -33,18 +37,18 @@ public class AppConfig extends WebMvcConfigurerAdapter{//
 //        configurer.enable();
 //    }
 	  
-	  public void addResourceHandlers(ResourceHandlerRegistry registry) {  
-	        // I tried these many combinations separately.
-
-	        ResourceHandlerRegistration resourceRegistration = registry
-	            .addResourceHandler("resources/**");
-	        resourceRegistration.addResourceLocations("/resources/**");
-	        registry.addResourceHandler("/css/**").addResourceLocations("/css/**");
-	        registry.addResourceHandler("/img/**").addResourceLocations("/img/**");
-	        registry.addResourceHandler("/js/**").addResourceLocations("/js/**");
-	        registry.addResourceHandler("/resources/**").addResourceLocations("classpath:/resources/"); 
-	              // do the classpath works with the directory under webapp?
-	     } 
+//	  public void addResourceHandlers(ResourceHandlerRegistry registry) {  
+//	        // I tried these many combinations separately.
+//
+//	        ResourceHandlerRegistration resourceRegistration = registry
+//	            .addResourceHandler("resources/**");
+//	        resourceRegistration.addResourceLocations("/resources/**");
+//	        registry.addResourceHandler("/css/**").addResourceLocations("/css/**");
+//	        registry.addResourceHandler("/img/**").addResourceLocations("/img/**");
+//	        registry.addResourceHandler("/js/**").addResourceLocations("/js/**");
+//	        registry.addResourceHandler("/resources/**").addResourceLocations("classpath:/resources/"); 
+//	              // do the classpath works with the directory under webapp?
+//	     } 
 	  
 //	  @Override
 //	  public void addResourceHandlers(ResourceHandlerRegistry registry) {

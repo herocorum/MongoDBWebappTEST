@@ -17,6 +17,8 @@ public class WebAppInitializer implements WebApplicationInitializer  {
 		dynamic.addMapping("/");
 		dynamic.setLoadOnStartup(1);
 	}
+	
+	
 }
 
 

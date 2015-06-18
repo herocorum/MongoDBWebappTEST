@@ -1,5 +1,7 @@
 package test.model;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
@@ -13,7 +15,9 @@ public class Person {
 	 @Id
 	private  Long  Id;
 	
+	@NotNull
 	private  String name;
+	@NotNull
 	private  String surName;
 	private  String gsmNO;
 	

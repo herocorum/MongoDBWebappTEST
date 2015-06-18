@@ -1,36 +1,26 @@
 package test.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.log4j.Logger;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.stereotype.Repository;
 
-import static org.springframework.data.mongodb.core.query.Query.*;
-import static org.springframework.data.mongodb.core.query.Criteria.*;
-import static org.springframework.data.mongodb.core.FindAndModifyOptions.*;
-//@Repository
+import test.model.SequenceId;
+
+
+
+
 public class SequenceDaoImpl implements SequenceDao{
 
-//	@Autowired
+	final static Logger logger = Logger.getLogger(SequenceDaoImpl.class);
+	
+	
+//	@Autowired 
 //	private MongoOperations mongo;
 	private MongoTemplate mongoTemplate;
 
-	//shortway
-//	public long getNextSequence(String collectionName) {
-//		SequenceId counter = mongo.findAndModify(
-//				query(where("_id").is(collectionName)),
-//				new Update().inc("seq", 1), 
-//				options().returnNew(true),
-//				SequenceId.class);
-//	       
-//	    return counter.getSeq();
-//	  }
-//	
-	//clear way
 	public long getNextSequenceId(String key) throws SequenceException {
 
 		Query query = new Query(Criteria.where("_id").is(key));
@@ -44,9 +34,11 @@ public class SequenceDaoImpl implements SequenceDao{
 		SequenceId seqId = mongoTemplate.findAndModify(query, update, options, SequenceId.class);
 
 		if (seqId == null) {
+			logger.fatal("Unable to get sequence id for key: " + key);
 			throw new SequenceException("Unable to get sequence id for key : " + key);
 		}
 
+		logger.info("sequence id succesfully created");
 		return seqId.getSeq();
 	}
 
