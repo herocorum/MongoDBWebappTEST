@@ -14,13 +14,8 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
-@Configuration// Marks this class as configuration// Specifies which package to scan
+@Configuration
 @ComponentScan({ "test", "test.controller" })
-
-//("test")
-
-// Enables Spring's annotations
-//@EnableTransactionManagement
 @EnableWebMvc
 //@ImportResource("classpath:\\spring.xml")
 public class AppConfig extends WebMvcConfigurerAdapter{// 
@@ -33,12 +28,14 @@ public class AppConfig extends WebMvcConfigurerAdapter{//
 		resolver.setViewClass(JstlView.class);
 		return resolver;
 	}
+	
+// if  we use AddPersonServlet.class enable this method and @EnableWebMvc annotation need to be removed	
 //  public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 //        configurer.enable();
 //    }
 	  
 //	  public void addResourceHandlers(ResourceHandlerRegistry registry) {  
-//	        // I tried these many combinations separately.
+//	        // I tried these many combinations separately 
 //
 //	        ResourceHandlerRegistration resourceRegistration = registry
 //	            .addResourceHandler("resources/**");
@@ -49,27 +46,5 @@ public class AppConfig extends WebMvcConfigurerAdapter{//
 //	        registry.addResourceHandler("/resources/**").addResourceLocations("classpath:/resources/"); 
 //	              // do the classpath works with the directory under webapp?
 //	     } 
-	  
-//	  @Override
-//	  public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//	    registry.addResourceHandler("/resources/**")
-//	      .addResourceLocations("/", "classpath:/src/main/resources/");
-//	  }
-	  
-//	  @Override
-//	  public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//	  	if (!registry.hasMappingForPattern("/webjars/**")) {
-//	  		registry.addResourceHandler("/webjars/**").addResourceLocations(
-//	  				"classpath:/META-INF/resources/webjars/");
-//	  	}
-//	  	if (!registry.hasMappingForPattern("/**")) {
-//	  		registry.addResourceHandler("/**").addResourceLocations(
-//	  				RESOURCE_LOCATIONS);
-//	  	}
-//	  }
- 
-//	   @Override
-//	    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//	        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-//	    }
+	   
 }
