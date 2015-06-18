@@ -14,10 +14,7 @@ public class Person {
 
 	 @Id
 	private  Long  Id;
-	
-	@NotNull
 	private  String name;
-	@NotNull
 	private  String surName;
 	private  String gsmNO;
 	
